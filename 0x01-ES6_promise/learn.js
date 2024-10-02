@@ -197,12 +197,12 @@
 
 //           4-user-promise.js   //
 
-function signUpUser(firstName, lastName) {
-        return Promise.resolve({
-            firstName,
-            lastName,
-        });
-}
+// function signUpUser(firstName, lastName) {
+//         return Promise.resolve({
+//             firstName,
+//             lastName,
+//         });
+// }
 
 
 
@@ -217,9 +217,9 @@ function signUpUser(firstName, lastName) {
 
 
 
-function uploadPhoto(filename) {
-    return Promise.reject(new Error (`${filename} cannot be processed`));
-}
+// function uploadPhoto(filename) {
+//     return Promise.reject(new Error (`${filename} cannot be processed`));
+// }
 
 // function uploadPhoto() {
 //     return Promise.resolve({
@@ -296,14 +296,14 @@ function uploadPhoto(filename) {
 
 
 //      8
-function divideFunction(numerator, denominator) {
-    if( denominator <= 0){
-        throw new Error("cannot divide by 0")
-    }
-    else{
-        return numerator / denominator
-    }
-}
+// function divideFunction(numerator, denominator) {
+//     if( denominator <= 0){
+//         throw new Error("cannot divide by 0")
+//     }
+//     else{
+//         return numerator / denominator
+//     }
+// }
 
 // console.log(divideFunction(10, 2));
 // console.log(divideFunction(10, 0));
