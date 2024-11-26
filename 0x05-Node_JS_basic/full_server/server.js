@@ -11,4 +11,4 @@ app.use('/students/:major', router);
 
 app.listen(port);
 
-export default app;
+module.exports = app;
