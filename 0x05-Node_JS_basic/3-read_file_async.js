@@ -1,37 +1,42 @@
 const fs = require('fs');
 
-function countStudents(file_name) {
+function countStudents(fileName) {
     return new Promise((resolve, reject) => {
-        fs.readFile(file_name, 'utf8', (error, data) => {
+        fs.readFile(fileName, 'utf8', (error, data) => {
             if (error) {
-                reject(Error('Cannot load the database'));
-            } else {
-                const lines = data.split('\n').filter((line) => line.trim() !== '');
-                const arr_CS = [];
-                const arr_SWE = [];
-                let len_CS = 0;
-                let len_SWE = 0;
-
-                for (let i = 1; i < lines.length; i += 1) {
-                    const div = lines[i].split(',').map(field => field.trim());
-                    if (div[3] === 'CS') {
-                        arr_CS.push(div[0]);
-                        len_CS += 1;
-                    } else if (div[3] === 'SWE') {
-                        arr_SWE.push(div[0]);
-                        len_SWE += 1;
-                    }
-                }
-
-                console.log(`Number of students: ${len_CS + len_SWE}`);
-                console.log(`Number of students in CS: ${len_CS}. List: ${arr_CS.join(', ')}`);
-                console.log(`Number of students in SWE: ${len_SWE}. List: ${arr_SWE.join(', ')}`);
-
-                resolve();
+                reject(new Error('Cannot load the database'));
+                return;
             }
+
+            const lines = data.split('\n').filter((line) => line.trim() !== '');
+            if (lines.length <= 1) {
+                reject(new Error('No students in the database'));
+                return;
+            }
+
+            const arrCS = [];
+            const arrSWE = [];
+            let lenCS = 0;
+            let lenSWE = 0;
+
+            for (let i = 1; i < lines.length; i += 1) {
+                const fields = lines[i].split(',').map((field) => field.trim());
+                if (fields[3] === 'CS') {
+                    arrCS.push(fields[0]);
+                    lenCS += 1;
+                } else if (fields[3] === 'SWE') {
+                    arrSWE.push(fields[0]);
+                    lenSWE += 1;
+                }
+            }
+
+            console.log(`Number of students: ${lenCS + lenSWE}`);
+            console.log(`Number of students in CS: ${lenCS}. List: ${arrCS.join(', ')}`);
+            console.log(`Number of students in SWE: ${lenSWE}. List: ${arrSWE.join(', ')}`);
+
+            resolve();
         });
     });
 }
 
 module.exports = countStudents;
-
