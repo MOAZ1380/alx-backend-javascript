@@ -1,30 +1,51 @@
-/**
- * Reads file asynchronously and prepares a report with the data from a csv file
- */
-import fs from 'fs';
+const { readFile } = require('fs');
 
-function readDatabase(path) {
+module.exports = function readDatabase (filePath) {
+  const students = {};
   return new Promise((resolve, reject) => {
-    fs.readFile(path, 'utf8', (err, records) => {
-      if (err) reject(new Error('Cannot load the database'));
-      else {
-        const content = records.split('\n');
-        content.splice(0, 1);
-        const report = {};
-        content.forEach((record) => {
-          const line = record.split(',');
-          if (line[3] && line[0]) {
-            if (Object.keys(report).indexOf(line[3]) === -1) {
-              report[line[3]] = [line[0]];
+    readFile(filePath, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        const lines = data.toString().split('\n');
+        const noHeader = lines.slice(1);
+        for (let i = 0; i < noHeader.length; i += 1) {
+          if (noHeader[i]) {
+            const field = noHeader[i].toString().split(',');
+            if (Object.prototype.hasOwnProperty.call(students, field[3])) {
+              students[field[3]].push(field[0]);
             } else {
-              (report[line[3]]).push(line[0]);
+              students[field[3]] = [field[0]];
             }
           }
-        });
-        resolve(report);
+        }
+        resolve(students);
       }
     });
   });
-}
+};const { readFile } = require('fs');
 
-export default readDatabase;
+module.exports = function readDatabase (filePath) {
+	  const students = {};
+	  return new Promise((resolve, reject) => {
+		      readFile(filePath, (err, data) => {
+			            if (err) {
+					            reject(err);
+					          } else {
+							          const lines = data.toString().split('\n');
+							          const noHeader = lines.slice(1);
+							          for (let i = 0; i < noHeader.length; i += 1) {
+									            if (noHeader[i]) {
+											                const field = noHeader[i].toString().split(',');
+											                if (Object.prototype.hasOwnProperty.call(students, field[3])) {
+														              students[field[3]].push(field[0]);
+														            } else {
+																                  students[field[3]] = [field[0]];
+																                }
+											              }
+									          }
+							          resolve(students);
+							        }
+			          });
+		    });
+};
